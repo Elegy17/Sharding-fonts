@@ -1,0 +1,30 @@
+import re
+import sys
+
+def process_font_face_rules(file_path):
+    """
+    处理CSS文件，在@font-face规则前添加换行符
+    """
+    try:
+        with open(file_path, 'r', encoding='utf-8') as file:
+            content = file.read()
+        
+        processed_content = re.sub(r'(?<!\n)@font-face', r'\n@font-face', content)
+        
+        with open(file_path, 'w', encoding='utf-8') as file:
+            file.write(processed_content)
+        
+        print(f"成功处理文件: {file_path}")
+        return True
+        
+    except Exception as e:
+        print(f"处理文件时出错: {str(e)}")
+        return False
+
+if __name__ == "__main__":
+    if len(sys.argv) != 2:
+        print("用法: python script.py <css文件路径>")
+        sys.exit(1)
+    
+    file_path = sys.argv[1]
+    process_font_face_rules(file_path)
